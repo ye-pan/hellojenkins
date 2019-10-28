@@ -7,8 +7,18 @@ pipeline {
             }
         }
         stage('build') {
-            steps{
+            steps {
                 sh 'mvn -DskipTests clean package'
+            }
+        }
+        stage('test') {
+            steps {
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    junit 'build/reports/**/*.xml'
+                }
             }
         }
     }
